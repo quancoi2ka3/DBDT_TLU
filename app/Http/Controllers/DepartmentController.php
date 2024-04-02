@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -12,6 +13,9 @@ class DepartmentController extends Controller
     public function index()
     {
         //
+        $departments = Department::orderBy('id', 'desc')->paginate(8); // Paginate with 15 items per page
+
+        return view('departments.index', compact('departments'));
     }
 
     /**
@@ -20,6 +24,7 @@ class DepartmentController extends Controller
     public function create()
     {
         //
+        return view('departments.create');
     }
 
     /**
