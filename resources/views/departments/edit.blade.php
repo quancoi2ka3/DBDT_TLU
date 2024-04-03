@@ -59,8 +59,27 @@
         </div>
         <div>
             <label class="form-label" for="website">Website</label>
-            <div class="input-group"> 
+            <div class="input-group">
                 <input type="text" class="form-control" name="website" id="website" value="{{$department->website}}" required>
+                <!-- <div id="validationServerUsernameFeedback" class="invalid-feedback">
+                    Làm ơn điền địa chỉ website
+                </div> -->
+            </div>
+            <label class="form-label" for="website">Phòng ban phụ thuộc</label>
+            <div class="input-group">
+                @php
+                use App\Models\Department;
+                $parent = DB::table('departments')->where('id', $department->parent_id)->first();
+                $selectedValue = $parent ? $parent->id : null;
+                $departments = Department::all();
+                @endphp
+                <select class="form-select" id="inputGroupSelect01" name="parent_id">
+                    <option value="{{ $selectedValue }}">{{ $parent ? $parent->name : '-- Trống --' }}</option>
+                    @foreach ($departments as $department)
+                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                    @endforeach
+                    <option value="">Không phụ thuộc</option>
+                </select>
                 <!-- <div id="validationServerUsernameFeedback" class="invalid-feedback">
                     Làm ơn điền địa chỉ website
                 </div> -->
@@ -90,6 +109,15 @@
             <button class="btn btn-primary" type="submit">Lưu</button>
         </div>
     </form>
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
 </div>
 
 @endsection

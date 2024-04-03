@@ -25,7 +25,7 @@ class DepartmentController extends Controller
     {
         //
         $departments = Department::all();
-        return view('departments.create',compact('departments'));
+        return view('departments.create', compact('departments'));
     }
 
     /**
@@ -49,9 +49,9 @@ class DepartmentController extends Controller
             'parent_id' => 'nullable|exists:departments,id', // Ensure parent_id exists in departments table
 
         ]);
-        
+
         Department::create($validateData);
-        
+
         return redirect()->route('departments.index');
     }
 
@@ -61,6 +61,8 @@ class DepartmentController extends Controller
     public function show(string $id)
     {
         //
+        $department = Department::find($id);
+        return view('departments.detail', compact('department'));
     }
 
     /**
@@ -69,14 +71,43 @@ class DepartmentController extends Controller
     public function edit(string $id)
     {
         //
+
+        $department = Department::find($id);
+        return view('departments.edit', compact('department'));
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        //
+    {   
+        $department = Department::find($id);
+        if (!$department) {
+            return redirect()->route('departments.index')
+                            ->with('error', 'Department not found.');
+        }
+        //gia tri moi lay tu form thong qua request
+        $validateData = $request->validate([
+            'name' => 'required|string|max:255', // Ensure name is a string
+            'address' => 'required|string|max:255', // Address is also a string
+            'email' => 'required|email',    //|unique:departments,email', // Validate email format and uniqueness
+            'phone' => [
+                'required',
+                'string',
+                'max:255',
+                // Regex to validate Vietnamese phone number format
+                //'regex:/^(0|\+84)(\d{1})(\d{8,9})$/',
+            ],
+            'logo' => 'required|string|max:255',
+            'website' => 'required|string', // 
+            'parent_id' => 'nullable|exists:departments,id', // Ensure parent_id exists in departments table
+
+        ]);
+         //du lieu trong db can sua
+        $department->update($validateData);
+        session()->flash('success', 'Cập nhật phòng ban thành công');
+
+        return redirect()->route('departments.index');
     }
 
     /**

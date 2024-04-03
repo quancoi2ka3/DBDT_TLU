@@ -2,6 +2,11 @@
 @section('title','Quản lý phòng ban')
 
 @section('main')
+@if (session()->has('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session()->get('success') }}
+    </div>
+@endif
 <h3 class="text-center text-primary mt-3">Quản lý <b class="text-primary">Phòng ban</b></h3>
 <div class="col-12 my-1 d-flex justify-content-end ">
 	<a href="{{route('departments.create')}}" class="btn btn-success" data-toggle="modal"><i class="fa-solid fa-plus" data-toggle="tooltip" title="Thêm"></i> <span>Thêm mới phòng ban</span></a>
@@ -66,7 +71,6 @@
 						<a href="{{route('departments.edit',$department->id)}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" title="Sửa"></i></a>
 					</td>
 					<td>
-
 						<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#_{{$department->id}}">
 							<i class="fa-solid fa-trash"></i>
 						</button>
@@ -102,7 +106,7 @@
 		</table>
 		{{ $departments->appends(request()->all())->links() }}
 		<p>Đang ở trang thứ <b>{{ $departments->currentPage() }}</b> trên tổng số <b>{{ $departments->lastPage() }} </b>trang</p>
-
+			
 
 	</div>
 </div>

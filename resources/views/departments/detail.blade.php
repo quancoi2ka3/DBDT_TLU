@@ -10,9 +10,6 @@
             <label class="form-label" for="name">Tên phòng ban</label>
             <div class="input-group">
                 <input type="text" class="form-control" name="name" id="name" value="{{$department->name}}" readonly>
-                <!-- <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                    Làm ơn điền email
-                </div> -->
             </div>
         </div>
         <div>
@@ -20,9 +17,6 @@
             <div class="input-group">
 
                 <input type="text" class="form-control" name="address" id="address" value="{{$department->address}}" readonly>
-                <!-- <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                    Làm ơn điền email
-                </div> -->
             </div>
         </div>
         <div>
@@ -30,9 +24,6 @@
             <div class="input-group">
                 <span class="input-group-text" id="inputGroupPrepend3">@</span>
                 <input type="text" class="form-control" name="email" id="email" value="{{$department->email}}" readonly>
-                <!-- <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                    Làm ơn điền email
-                </div> -->
             </div>
         </div>
         <div>
@@ -40,27 +31,25 @@
             <div class="input-group">
 
                 <input type="text" class="form-control" name="phone" id="phone" value="{{$department->phone}}" readonly>
-                <!-- <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                    Làm ơn điền số điện thoại
-                </div> -->
             </div>
         </div>
         <div>
             <label class="form-label" for="logo">Logo</label>
             <div class="input-group">
                 <input type="text" class="form-control" name="logo" id="logo" value="{{$department->logo}}" readonly>
-                <!-- <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                    Logo không được bỏ trống
-                </div> -->
             </div>
         </div>
         <div>
             <label class="form-label" for="website">Website</label>
             <div class="input-group"> 
                 <input type="text" class="form-control" name="website" id="website" value="{{$department->website}}" readonly>
-                <!-- <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                    Làm ơn điền địa chỉ website
-                </div> -->
+            </div>
+            <label class="form-label" for="website">Phòng ban phụ thuộc</label>
+            @php
+                $parent = DB::table('departments')->where('id', $department->parent_id)->first();
+                @endphp
+            <div class="input-group"> 
+                <input type="text" class="form-control" name="parent_id" id="parent_id" value="{{$parent->name}}" readonly>
             </div>
         </div>
         <!-- <div class="col-md-3" >
