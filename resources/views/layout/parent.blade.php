@@ -48,10 +48,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{route('departments.index')}}">Quản lý phòng ban</a>
+                            <a class="nav-link " aria-current="page" href="{{route('departments.index')}}">Quản lý phòng ban</a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Quản lý nhân viên</a>
+                        <li class="nav-item ">
+                            <a class="nav-link " aria-current="page" href="#">Quản lý nhân viên</a>
                         </li>
                         <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

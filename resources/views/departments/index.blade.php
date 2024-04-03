@@ -9,30 +9,23 @@
 </div>
 <div class="container-fluid">
 	<div class="table-responsive table-bordered">
-
-		<div class="table-title bg-dark">
-
-			<div class="col-md-12">
-				<h2 class="text-white">Danh sách <b class="text-white">Phòng ban</b></h2>
-			</div>
-
-		</div>
 		<?php $i = 1 ?>
 		<table class="table table-success table-striped table-hover">
+			<caption class="table caption-top "><b>DANH SÁCH PHÒNG BAN</b></caption>
 			<thead>
 				<tr>
-					<th>
+					<th class="text-center" style="white-space: nowrap">
 						<span class="custom-checkbox">
 							<input type="checkbox" id="selectAll">
 							<label for="selectAll"></label>
 						</span>
 					</th>
-					<th>Số thứ tự</th>
-					<th>Tên phòng ban</th>
-					<th>Địa chỉ</th>
-					<th>Email</th>
-					<th>Logo</th>
-					<th>Website</th>
+					<th class="text-center" style="white-space: nowrap">Số thứ tự</th>
+					<th class="text-center" style="white-space: nowrap">Tên phòng ban</th>
+					<th class="text-center">Địa chỉ</th>
+					<th class="text-center">Email</th>
+					<th class="text-center">Logo</th>
+					<th class="text-center">Website</th>
 					<th colspan="4" class="text-center">Thao tác</th>
 				</tr>
 			</thead>
@@ -50,16 +43,27 @@
 					<td>{{$department->name}}</td>
 					<td>{{$department->address}}</td>
 					<td>{{$department->email}}</td>
-					<td>{{$department->logo}}</td>
-					<td>{{$department->website}}</td>
 					<td>
-						<a href="{{route('departments.create')}}" class="create" data-toggle="modal"><i class="fa-solid fa-plus" data-toggle="tooltip" title="Thêm"></i></a>
+						@if($department->logo)
+						<img src="{{ asset($department->logo) }}" class="img-fluid" alt="Logo" onerror="this.src='https:www.iconpacks.net/icons/1/free-building-icon-1062-thumb.png'">
+						@else
+						<img src="{{ asset('images/logo.png') }}" class="img-fluid" alt="Logo">
+						@endif
+					</td>
+
+					<td style="text-overflow: ellipsis;  white-space: nowrap">
+						<a href="{{ $department->website }}">{{ $department->website }}</a>
+					</td>
+
+
+					<td>
+						<a href="{{route('departments.create')}}" class="btn btn-primary"><i class="fa-solid fa-plus" data-toggle="tooltip" title="Thêm"></i></a>
 					</td>
 					<td>
-						<a href="{{route('departments.show',$department->id)}}" class="view" data-toggle="modal"><i class="fa-solid fa-eye" data-toggle="tooltip" title="Xem chi tiết"></i></a>
+						<a href="{{route('departments.show',$department->id)}}" class="btn btn-info"><i class="fa-solid fa-eye" data-toggle="tooltip" title="Xem chi tiết"></i></a>
 					</td>
 					<td>
-						<a href="{{route('departments.edit',$department->id)}}" class="edit" data-toggle="modal"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" title="Sửa"></i></a>
+						<a href="{{route('departments.edit',$department->id)}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" title="Sửa"></i></a>
 					</td>
 					<td>
 
