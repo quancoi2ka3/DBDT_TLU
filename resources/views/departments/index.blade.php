@@ -3,10 +3,17 @@
 
 @section('main')
 @if (session()->has('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session()->get('success') }}
+<div id="successAlert" class="alert alert-success" role="alert">
+	{{ session()->get('success') }}
+</div>
+@endif
+@if(session()->has('error'))
+    <div class="alert alert-danger" role="alert">
+        {{ session('error') }}
     </div>
 @endif
+
+
 <h3 class="text-center text-primary mt-3">Quản lý <b class="text-primary">Phòng ban</b></h3>
 <div class="col-12 my-1 d-flex justify-content-end ">
 	<a href="{{route('departments.create')}}" class="btn btn-success" data-toggle="modal"><i class="fa-solid fa-plus" data-toggle="tooltip" title="Thêm"></i> <span>Thêm mới phòng ban</span></a>
@@ -31,6 +38,7 @@
 					<th class="text-center">Email</th>
 					<th class="text-center">Logo</th>
 					<th class="text-center">Website</th>
+					<th class="text-center">Số nhân viên</th>
 					<th colspan="4" class="text-center">Thao tác</th>
 				</tr>
 			</thead>
@@ -50,7 +58,7 @@
 					<td>{{$department->email}}</td>
 					<td>
 						@if($department->logo)
-						<img src="{{ asset($department->logo) }}" class="img-fluid" alt="Logo" onerror="this.src='https:www.iconpacks.net/icons/1/free-building-icon-1062-thumb.png'">
+						<img src="{{ asset('storage/' . $department->logo)}}" class="img-fluid" alt="Logo" onerror="this.src='https:www.iconpacks.net/icons/1/free-building-icon-1062-thumb.png'">
 						@else
 						<img src="{{ asset('images/logo.png') }}" class="img-fluid" alt="Logo">
 						@endif
@@ -59,6 +67,7 @@
 					<td style="text-overflow: ellipsis;  white-space: nowrap">
 						<a href="{{ $department->website }}">{{ $department->website }}</a>
 					</td>
+					
 
 
 					<td>
@@ -68,11 +77,11 @@
 						<a href="{{route('departments.show',$department->id)}}" class="btn btn-info"><i class="fa-solid fa-eye" data-toggle="tooltip" title="Xem chi tiết"></i></a>
 					</td>
 					<td>
-						<a href="{{route('departments.edit',$department->id)}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" title="Sửa"></i></a>
+						<a href="{{route('departments.edit',$department->id)}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" title="Cập nhật"></i></a>
 					</td>
 					<td>
 						<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#_{{$department->id}}">
-							<i class="fa-solid fa-trash"></i>
+							<i data-toggle="tooltip" title="Xóa" class="fa-solid fa-trash"></i>
 						</button>
 
 						<!-- Modal -->
@@ -106,10 +115,27 @@
 		</table>
 		{{ $departments->appends(request()->all())->links() }}
 		<p>Đang ở trang thứ <b>{{ $departments->currentPage() }}</b> trên tổng số <b>{{ $departments->lastPage() }} </b>trang</p>
-			
+
 
 	</div>
+	@if ($errors->any())
+	<div class="alert alert-danger">
+		<ul>
+			@foreach ($errors->all() as $error)
+			<li>{{ $error }}</li>
+			@endforeach
+		</ul>
+	</div>
+	@endif
 </div>
-
+<script>
+	// Sử dụng JavaScript để ẩn thông báo sau 5 giây
+	setTimeout(function() {
+		var alert = document.getElementById('successAlert');
+		if (alert) {
+			alert.style.display = 'none';
+		}
+	}, 5000); // Thời gian tính bằng mili giây, 5000 mili giây tương đương với 5 giây
+</script>
 
 @endsection

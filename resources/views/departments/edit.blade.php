@@ -1,12 +1,12 @@
 @extends('layout.parent')
 
-@section('title','Thêm mới phòng ban')
+@section('title','Cập nhật phòng ban')
 
 @section('main')
 
-<h3 class="mt-3">Sửa phòng ban </h3>
+<h3 class="mt-3  text-center">Cập nhật phòng ban </h3>
 <div class="container">
-    <form action="{{ route('departments.update',$department) }}" method="POST">
+    <form action="{{ route('departments.update',$department) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div>
@@ -51,12 +51,32 @@
         <div>
             <label class="form-label" for="logo">Logo</label>
             <div class="input-group">
-                <input type="text" class="form-control" name="logo" id="logo" value="{{$department->logo}}" required>
-                <!-- <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                    Logo không được bỏ trống
-                </div> -->
+                <!-- Hiển thị ảnh hiện tại -->
+                <img src="{{ asset('storage/' . $department->logo)}}" class="img-fluid" id="currentLogo" alt="Ảnh hiện tại" style="max-width: 200px;">
+                <!-- Trường input ẩn để lưu đường dẫn của ảnh -->
+                <input type="hidden" name="current_logo" value="{{ $department->logo }}">
             </div>
         </div>
+        <div>
+            <label class="form-label" for="new_logo">Chọn ảnh mới</label>
+            <input type="file" class="form-control" name="new_logo" id="new_logo">
+        </div>
+        <script>
+            document.getElementById('new_logo').addEventListener('change', function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('currentLogo').src = e.target.result;
+                }
+                reader.readAsDataURL(this.files[0]);
+
+                // Lấy tên của tệp tin được chọn
+                var fileName = this.files[0].name;
+
+                // Cập nhật giá trị của trường input logo
+                document.querySelector('input[name="new_logo"]').value = fileName;
+            });
+        </script>
+
         <div>
             <label class="form-label" for="website">Website</label>
             <div class="input-group">

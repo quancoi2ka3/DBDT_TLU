@@ -4,9 +4,9 @@
 
 @section('main')
 
-<h3 class="mt-3">Thêm phòng ban mới </h3>
+<h3 class="mt-3 text-center">Thêm phòng ban mới </h3>
 <div class="container">
-    <form action="{{ route('departments.store') }}" method="POST">
+    <form action="{{ route('departments.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div>
             <label class="form-label" for="name">Tên phòng ban</label>
@@ -88,7 +88,7 @@
         <div class="input-group my-3">
             <label class="input-group-text" for="inputGroupSelect01">Chọn phòng ban phụ thuộc</label>
             <select class="form-select" id="inputGroupSelect01" name="parent_id">
-                <option value=""></option>
+                <option value="">Không phụ thuộc</option>
                 @foreach ($departments as $department)
                 <option value="{{ $department->id }}">{{ $department->name }}</option>
                 @endforeach
@@ -98,6 +98,15 @@
             <button class="btn btn-primary" type="submit">Thêm</button>
         </div>
     </form>
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
 </div>
 
 @endsection

@@ -18,3 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('departments', DepartmentController::class);
+
+// Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+// Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
+// Route::post('/departments', [DepartmentController::class, 'store']);
+// Route::get('/departments/{id}', [DepartmentController::class, 'show'])->name('departments.detail');
+// Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
+// Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
