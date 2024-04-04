@@ -8,16 +8,16 @@
 </div>
 @endif
 @if(session()->has('error'))
-    <div class="alert alert-danger" role="alert">
-        {{ session('error') }}
-    </div>
+<div class="alert alert-danger" role="alert">
+	{{ session('error') }}
+</div>
 @endif
 
 
 <h3 class="text-center text-primary mt-3">Quản lý <b class="text-primary">Phòng ban</b></h3>
 <div class="col-12 my-1 d-flex justify-content-end ">
 	<a href="{{route('departments.create')}}" class="btn btn-success" data-toggle="modal"><i class="fa-solid fa-plus" data-toggle="tooltip" title="Thêm"></i> <span>Thêm mới phòng ban</span></a>
-	<a href="{{route('departments.destroy','departments')}}" class="btn btn-danger" data-toggle="modal"><i class="fa-solid fa-trash"></i> <span>Xóa</span></a>
+	<a href="" id="deleteSelected" class="btn btn-danger" data-toggle="modal"><i class="fa-solid fa-trash" data-toggle="tooltip" title="Xóa"></i> <span>Xóa</span></a>
 </div>
 <div class="container-fluid">
 	<div class="table-responsive table-bordered">
@@ -26,29 +26,30 @@
 			<caption class="table caption-top "><b>DANH SÁCH PHÒNG BAN</b></caption>
 			<thead>
 				<tr>
-					<th class="text-center" style="white-space: nowrap">
+					<th scope="col" class="text-center" style="white-space: nowrap">
 						<span class="custom-checkbox">
 							<input type="checkbox" id="selectAll">
 							<label for="selectAll"></label>
 						</span>
 					</th>
-					<th class="text-center" style="white-space: nowrap">Số thứ tự</th>
-					<th class="text-center" style="white-space: nowrap">Tên phòng ban</th>
-					<th class="text-center">Địa chỉ</th>
-					<th class="text-center">Email</th>
-					<th class="text-center">Logo</th>
-					<th class="text-center">Website</th>
-					<th class="text-center">Số nhân viên</th>
-					<th colspan="4" class="text-center">Thao tác</th>
+
+					<th scope="col" class="text-center" style="white-space: nowrap">Số thứ tự</th>
+					<th scope="col" class="text-center" style="white-space: nowrap">Tên phòng ban</th>
+					<th scope="col" class="text-center">Địa chỉ</th>
+					<th scope="col" class="text-center">Email</th>
+					<th scope="col" class="text-center">Logo</th>
+					<th scope="col" class="text-center">Website</th>
+					<th scope="col" class="text-center" style="white-space: nowrap">Số nhân viên</th>
+					<th scope="col" colspan="4" class="text-center">Thao tác</th>
 				</tr>
 			</thead>
 			<tbody>
 
 				@foreach($departments as $department )
-				<tr>
+				<tr id="department_ids{{$department->id}}">
 					<td>
 						<span class="custom-checkbox">
-							<input type="checkbox" name="ids[]" id="ids" value="{{ $department->id }}">
+							<input type="checkbox" name="ids" id="ids" class="checkbox_ids" value="{{ $department->id }}">
 							<label for="checkbox5"></label>
 						</span>
 					</td>
@@ -64,10 +65,11 @@
 						@endif
 					</td>
 
-					<td style="text-overflow: ellipsis;  white-space: nowrap">
+					<td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
 						<a href="{{ $department->website }}">{{ $department->website }}</a>
 					</td>
-					
+
+					<td>{{$department->employee_count}}</td>
 
 
 					<td>
@@ -114,7 +116,7 @@
 			</tbody>
 		</table>
 		{{ $departments->appends(request()->all())->links() }}
-		<p>Đang ở trang thứ <b>{{ $departments->currentPage() }}</b> trên tổng số <b>{{ $departments->lastPage() }} </b>trang</p>
+
 
 
 	</div>
@@ -128,6 +130,40 @@
 	</div>
 	@endif
 </div>
+<script>
+	$(function(e) {
+		$("#selectAll").click(function() {
+			$(".checkbox_ids").prop('checked', $(this).prop('checked'));
+		});
+		$('#deleteSelected').click(function(e) {
+			e.preventDefault();
+			var all_ids = [];
+			$('input:checkbox[name=ids]:checked').each(function() {
+				all_ids.push($(this).val());
+			});
+
+			$.ajax({
+				url: "{{route('departments.delete')}}",
+				type: "DELETE",
+				data: {
+					ids: all_ids,
+					_token: '{{csrf_token()}}'
+				},
+				success: function(response) {
+					$.each(all_ids, function(key, val) {
+						$('#department_ids' + val).remove();
+					});
+					if (response.success) {
+						// Hiển thị thông báo thành công
+						alert('Xóa các phòng ban đã chọn thành công');
+						// Reload trang
+						window.location.reload();
+					}
+				}
+			});
+		});
+	});
+</script>
 <script>
 	// Sử dụng JavaScript để ẩn thông báo sau 5 giây
 	setTimeout(function() {

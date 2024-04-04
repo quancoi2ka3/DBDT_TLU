@@ -14,11 +14,22 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
-        $departments = Department::orderBy('id', 'desc')->paginate(8); // Paginate with 15 items per page
-        $employeeCount = Employee::where('department_id')->count();
+        $departments = Department::select('departments.*')
+            ->selectRaw('(SELECT COUNT(*) FROM employees WHERE employees.department_id = departments.id) as employee_count')
+            ->orderBy('id', 'desc')
+            ->paginate(8);
+
+        if ($key = request()->key) {
+            $departments = Department::select('departments.*')
+                ->selectRaw('(SELECT COUNT(*) FROM employees WHERE employees.department_id = departments.id) as employee_count')
+                ->orderBy('id', 'desc')
+                ->where('name', 'like', '%' . $key . '%')
+                ->paginate(8);
+        }
+
         return view('departments.index', compact('departments'));
     }
+
     public function checkEmployeeCount($department_id)
     {
         $employeeCount = Employee::where('department_id', $department_id)->count();
@@ -147,5 +158,10 @@ class DepartmentController extends Controller
         $department->delete();
         session()->flash('success', 'Xóa phòng ban thành công');
         return redirect()->route('departments.index');
+    }
+    public function deleteSelected(Request $request){
+        $ids = $request->ids;
+        Department::whereIn('id',$ids)->delete();
+       return response()->json(['success' => true]);
     }
 }

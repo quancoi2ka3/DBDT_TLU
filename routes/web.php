@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('departments', DepartmentController::class);
-
+Route::delete('/selected-department',[DepartmentController::class,'deleteSelected'])->name('departments.delete');
 // Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
 // Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
 // Route::post('/departments', [DepartmentController::class, 'store']);
