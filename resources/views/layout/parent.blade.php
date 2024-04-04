@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    
+
 </head>
 
 
@@ -27,7 +27,7 @@
                             <a class="nav-link " aria-current="page" href="{{route('departments.index')}}">Quản lý phòng ban</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link " aria-current="page" href="#">Quản lý nhân viên</a>
+                            <a class="nav-link " aria-current="page" href="{{route('employees.index')}}">Quản lý nhân viên</a>
                         </li>
                         <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

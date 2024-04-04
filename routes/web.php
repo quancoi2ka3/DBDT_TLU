@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('departments', DepartmentController::class);
+Route::resource('employees', EmployeeController::class);
 Route::delete('/selected-department',[DepartmentController::class,'deleteSelected'])->name('departments.delete');
+Route::delete('/selected-employee',[EmployeeController::class,'deleteSelected'])->name('employees.delete');
 // Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
 // Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
 // Route::post('/departments', [DepartmentController::class, 'store']);
